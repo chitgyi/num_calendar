@@ -141,41 +141,39 @@ class _NCalendarMonthViewState extends State<NCalendarMonthView> {
             const Divider(height: 32),
             Wrap(
               children: NDateUtils.generateDaysOfMonth(inputDate)
-                  .asMap()
-                  .entries
                   .map(
-                    (e) => CalendarTableCell(
+                    (dateTime) => CalendarTableCell(
                       onTap: () {
                         final isExist = selectedDates
-                            .any((date) => date.equalsDay(e.value));
+                            .any((date) => date.equalsDay(dateTime));
 
                         if (isExist) {
                           selectedDates.removeWhere(
-                            (element) => element.equalsDay(e.value),
+                            (element) => element.equalsDay(dateTime),
                           );
                         } else {
                           if (widget.selectableType ==
                               CalendarSelectableType.single) {
                             selectedDates.clear();
                           }
-                          selectedDates.add(e.value);
+                          selectedDates.add(dateTime);
                         }
 
                         widget.onChanged?.call(selectedDates);
                         setState(() {});
                       },
-                      type: switch (e.value) {
-                        _ when !inputDate.equalsMonth(e.value) =>
+                      type: switch (dateTime) {
+                        _ when !inputDate.equalsMonth(dateTime) =>
                           TableCellType.disabled,
                         _
-                            when selectedDates
-                                .any((element) => element.equalsDay(e.value)) =>
+                            when selectedDates.any(
+                                (element) => element.equalsDay(dateTime)) =>
                           TableCellType.filled,
-                        _ when DateTime.now().equalsDay(e.value) =>
+                        _ when DateTime.now().equalsDay(dateTime) =>
                           TableCellType.outlined,
                         _ => TableCellType.normal,
                       },
-                      text: "${e.value.day}",
+                      text: "${dateTime.day}",
                     ),
                   )
                   .toList(),
