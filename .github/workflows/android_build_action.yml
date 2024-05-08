@@ -31,5 +31,5 @@ jobs:
       # Upload generated apk to the artifacts.
       - uses: actions/upload-artifact@v1
         with:
-          name: num_calendar.apk
+          name: num_calendar
           path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
