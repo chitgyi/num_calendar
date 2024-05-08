@@ -24,87 +24,97 @@ class NCalendarYearlyListView extends StatelessWidget {
           final date = DateTime(startYear + index);
           return [
             SliverToBoxAdapter(
-              child: Text(
-                date.toYearFormat(),
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  height: 2.0,
-                  color: Theme.of(context).primaryColor,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  date.toYearFormat(),
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    height: 2.0,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
             ),
-            SliverGrid.builder(
-              itemCount: 12,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 8.0,
-                childAspectRatio: 8 / 9,
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
               ),
-              itemBuilder: (BuildContext context, int index) {
-                final inputDate = DateTime(date.year, index + 1);
-                final isCurrentMonth =
-                    selectedDate?.equalsMonth(inputDate) ?? false;
-                return GestureDetector(
-                  onTap: () => onTap?.call(inputDate),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: isCurrentMonth
-                              ? Theme.of(context).primaryColor
-                              : Colors.white,
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(14),
+              sliver: SliverGrid.builder(
+                itemCount: 12,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 8.0,
+                  childAspectRatio: 8 / 9,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  final inputDate = DateTime(date.year, index + 1);
+                  final isCurrentMonth =
+                      selectedDate?.equalsMonth(inputDate) ?? false;
+                  return GestureDetector(
+                    onTap: () => onTap?.call(inputDate),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: isCurrentMonth
+                                ? Theme.of(context).primaryColor
+                                : Colors.white,
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(14),
+                            ),
+                          ),
+                          child: Text(
+                            inputDate.toMonthFormat(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color:
+                                  isCurrentMonth ? Colors.white : Colors.grey,
+                              fontSize: 16,
+                              height: 2.0,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                        child: Text(
-                          inputDate.toMonthFormat(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: isCurrentMonth ? Colors.white : Colors.grey,
-                            fontSize: 16,
-                            height: 2.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      Wrap(
-                        children: NDateUtils.generateDaysOfMonth(
-                                inputDate, DateTime.monday)
-                            .map(
-                          (e) {
-                            final isSelectedDay =
-                                selectedDate?.equalsDay(e) ?? false;
+                        Wrap(
+                          children: NDateUtils.generateDaysOfMonth(
+                                  inputDate, DateTime.monday)
+                              .map(
+                            (e) {
+                              final isSelectedDay =
+                                  selectedDate?.equalsDay(e) ?? false;
 
-                            return CalendarTableCell(
-                              size: 12,
-                              text: e.equalsMonth(inputDate)
-                                  ? e.day.toString()
-                                  : '',
-                              textStyle: TextStyle(
-                                fontSize: 8,
-                                color: switch (e.weekday) {
-                                  _ when isSelectedDay && isCurrentMonth =>
-                                    Colors.white,
-                                  DateTime.sunday ||
-                                  DateTime.saturday =>
-                                    Theme.of(context).primaryColor,
-                                  _ => null,
-                                },
-                              ),
-                              type: isSelectedDay & isCurrentMonth
-                                  ? TableCellType.filled
-                                  : TableCellType.normal,
-                            );
-                          },
-                        ).toList(),
-                      )
-                    ],
-                  ),
-                );
-              },
+                              return CalendarTableCell(
+                                size: 12,
+                                text: e.equalsMonth(inputDate)
+                                    ? e.day.toString()
+                                    : '',
+                                textStyle: TextStyle(
+                                  fontSize: 8,
+                                  color: switch (e.weekday) {
+                                    _ when isSelectedDay && isCurrentMonth =>
+                                      Colors.white,
+                                    DateTime.sunday ||
+                                    DateTime.saturday =>
+                                      Theme.of(context).primaryColor,
+                                    _ => null,
+                                  },
+                                ),
+                                type: isSelectedDay & isCurrentMonth
+                                    ? TableCellType.filled
+                                    : TableCellType.normal,
+                              );
+                            },
+                          ).toList(),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ];
         }).reduce((value, element) => [...value, ...element]),

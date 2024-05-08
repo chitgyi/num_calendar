@@ -14,14 +14,11 @@ class YearlyPage extends ConsumerWidget {
 
     return CustomScaffold(
       title: 'Calendar',
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: NCalendarYearlyListView(
-          startYear: calendarState.startDate.year,
-          endYear: calendarState.endDate.year,
-          selectedDate: calendarState.selectedDate,
-          onTap: (dateTime) => provider.setSelectedDate(dateTime),
-        ),
+      body: NCalendarYearlyListView(
+        startYear: calendarState.startDate.year,
+        endYear: calendarState.endDate.year,
+        selectedDate: calendarState.selectedDate,
+        onTap: (dateTime) => provider.setSelectedDate(dateTime),
       ),
     );
   }
