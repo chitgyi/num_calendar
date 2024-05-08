@@ -90,7 +90,7 @@ class NCalendarYearlyListView extends StatelessWidget {
                                     Colors.white,
                                   DateTime.sunday ||
                                   DateTime.saturday =>
-                                    Colors.red,
+                                    Theme.of(context).primaryColor,
                                   _ => null,
                                 },
                               ),

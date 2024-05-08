@@ -11,6 +11,7 @@ class YearlyPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final calendarState = ref.watch(calendarProviderProvider);
     final provider = ref.read(calendarProviderProvider.notifier);
+
     return CustomScaffold(
       title: 'Calendar',
       body: Padding(
