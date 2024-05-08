@@ -32,4 +32,4 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: num_calendar
-          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
